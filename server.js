@@ -1,15 +1,17 @@
-// set up ======================================================================
-var express = require('express');
-var app = express(); 						// create our app w/ express
-var mongoose = require('mongoose'); 				// mongoose for mongodb
-var port = process.env.PORT || 8080; 				// set the port
-var database = require('./config/database'); 			// load the database config
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var fs = require('fs')
 
-// configuration ===============================================================
+//  OpenShift sample Node application
+var express = require('express'),
+    fs      = require('fs'),
+    app     = express(),
+    eps     = require('ejs'),
+    morgan  = require('morgan');
+ var mongoose = require('mongoose');
+
+Object.assign=require('object-assign')
+
+app.engine('html', require('ejs').renderFile);
+app.use(morgan('combined'))
+
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
   ip = process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
   mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
@@ -38,19 +40,32 @@ else {
   mongoURL = database.localUrl
 }
 var db = null,
-  dbDetails = new Object();
 
-var initDb = function (callback) {
-  console.log('!!!!!!!!!!!!!!!!!!!!!')
-  console.log(mongoURL)
+    dbDetails = new Object();
+
+var initDb = function(callback) {
+  console.log('!!!!!!!!!!!!!!!!!!!!')
   console.log(process.env)
-  mongoose.connect(mongoURL, function (err, conn) {
-    if (err) {
-      callback(err);
-      return;
-    }
-    console.log('Connected to MongoDB at: %s', mongoURL);
-  });
+  console.log('!!!!!!!!!!!!!!!!!!!!')
+  if (mongoURL == null) return;
+
+  //var mongodb = require('mongodb');
+  if (mongodb == null) return;
+  mongoose.connect(mongoURL);
+  console.log('Connected to MongoDB at: %s', mongoURL);
+  // mongodb.connect(mongoURL, function(err, conn) {
+  //   if (err) {
+  //     callback(err);
+  //     return;
+  //   }
+
+  //   db = conn;
+  //   dbDetails.databaseName = db.databaseName;
+  //   dbDetails.url = mongoURLLabel;
+  //   dbDetails.type = 'MongoDB';
+
+  //   console.log('Connected to MongoDB at: %s', mongoURL);
+  // });
 };
 
 initDb(function (err) {
