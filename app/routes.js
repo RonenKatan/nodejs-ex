@@ -49,4 +49,9 @@ module.exports = function (app) {
             getTodos(res);
         });
     });
+
+    // application -------------------------------------------------------------
+    app.get('*', function (req, res) {
+        res.sendfile('public/index.html', { root: __dirname + '/..' })
+    });
 };

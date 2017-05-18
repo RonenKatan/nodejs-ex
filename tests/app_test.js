@@ -19,9 +19,9 @@ describe('Basic routes tests', function() {
 
     })
 
-    it('GET to /pagecount should return 200', function(done){
+    it('GET to /api/todos should return 200', function(done){
         chai.request(reqServer)
-        .get('/pagecount')
+        .get('/api/todos')
         .end(function(err, res) {
             res.should.have.status(200);
             done();
