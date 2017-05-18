@@ -37,7 +37,8 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 else{
     mongoURL=database.localUrl
 }
-
+console.log('!!!!!!!!!!!!!!!!!!!!!')
+console.log(mongoURL)
 mongoose.connect(mongoURL); 	// Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
 
 app.use(express.static('./public')); 		// set the static files location /public/img will be /img for users
