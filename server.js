@@ -4,7 +4,8 @@ var express = require('express'),
     app     = express(),
     eps     = require('ejs'),
     morgan  = require('morgan');
-    
+ var mongoose = require('mongoose');
+
 Object.assign=require('object-assign')
 
 app.engine('html', require('ejs').renderFile);
@@ -38,24 +39,28 @@ var db = null,
     dbDetails = new Object();
 
 var initDb = function(callback) {
+  console.log('!!!!!!!!!!!!!!!!!!!!')
+  console.log(process.env)
+  console.log('!!!!!!!!!!!!!!!!!!!!')
   if (mongoURL == null) return;
 
-  var mongodb = require('mongodb');
+  //var mongodb = require('mongodb');
   if (mongodb == null) return;
+  mongoose.connect(mongoURL);
+  console.log('Connected to MongoDB at: %s', mongoURL);
+  // mongodb.connect(mongoURL, function(err, conn) {
+  //   if (err) {
+  //     callback(err);
+  //     return;
+  //   }
 
-  mongodb.connect(mongoURL, function(err, conn) {
-    if (err) {
-      callback(err);
-      return;
-    }
+  //   db = conn;
+  //   dbDetails.databaseName = db.databaseName;
+  //   dbDetails.url = mongoURLLabel;
+  //   dbDetails.type = 'MongoDB';
 
-    db = conn;
-    dbDetails.databaseName = db.databaseName;
-    dbDetails.url = mongoURLLabel;
-    dbDetails.type = 'MongoDB';
-
-    console.log('Connected to MongoDB at: %s', mongoURL);
-  });
+  //   console.log('Connected to MongoDB at: %s', mongoURL);
+  // });
 };
 
 app.get('/', function (req, res) {
