@@ -52,6 +52,6 @@ module.exports = function (app) {
 
     // application -------------------------------------------------------------
     app.get('*', function (req, res) {
-        res.sendfile('public/index.html', { root: __dirname + '/..' })
+        res.sendFile('public/index.html', { root: __dirname + '/..' })
     });
 };
